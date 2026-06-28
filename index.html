@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年地理信息科学野外实习报告 · 西藏林芝</title>
+    <style>
+        :root {
+            --forest-dark: #1a3c2a;
+            --forest-mid: #2d5a3f;
+            --forest-light: #4a7c59;
+            --leaf-green: #3b7a5a;
+            --earth: #8b6914;
+            --earth-light: #c4a44a;
+            --cream: #fdf6e8;
+            --stone: #e8e0d5;
+            --text-dark: #2c2416;
+            --text-mid: #5c4f3a;
+            --white: #fffef9;
+            --accent: #d4a843;
+            --shadow-sm: 0 2px 8px rgba(44, 36, 22, 0.08);
+            --shadow-md: 0 4px 20px rgba(44, 36, 22, 0.13);
+            --shadow-lg: 0 8px 40px rgba(44, 36, 22, 0.18);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+            background-color: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(253, 246, 232, 0.82);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(139, 105, 20, 0.15);
+            transition: var(--transition);
+            padding: 0 2rem;
+        }
+        .navbar.scrolled {
+            background: rgba(253, 246, 232, 0.95);
+            box-shadow: var(--shadow-sm);
+        }
+        .navbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--forest-dark);
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+        .nav-logo .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--leaf-green), var(--forest-mid));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-mid);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--forest-mid);
+            color: #fff;
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--forest-dark);
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        /* Hero 头部 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background:
+                linear-gradient(180deg,
+                    rgba(26, 60, 42, 0.55) 0%,
+                    rgba(45, 90, 63, 0.4) 40%,
+                    rgba(74, 124, 89, 0.25) 100%),
+                linear-gradient(160deg, #3d6b4f 0%, #2d5a3f 30%, #1a3c2a 70%, #0f2b1d 100%);
+            color: #fff;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(196, 164, 74, 0.25) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 20%, rgba(139, 180, 120, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 254, 249, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-mountains {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.4rem 1.3rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(6px);
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            text-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+        }
+        .hero h1 .highlight {
+            color: #f0d78c;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounceDown 2s infinite;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+        .scroll-indicator svg {
+            width: 36px;
+            height: 36px;
+        }
+        @keyframes bounceDown {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(12px);
+            }
+        }
+
+        /* 通用区块 */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        .section-tag {
+            display: inline-block;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--leaf-green);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .section-header h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: var(--forest-dark);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.3px;
+        }
+        .section-header .divider {
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            margin: 1rem auto;
+            border-radius: 3px;
+        }
+        .section-header p {
+            color: var(--text-mid);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(139, 105, 20, 0.08);
+            transition: var(--transition);
+        }
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+        .grid-5 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* 实习概况 */
+        #overview {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            margin: -60px auto 0;
+            position: relative;
+            z-index: 10;
+            box-shadow: var(--shadow-lg);
+            max-width: 1050px;
+        }
+        .overview-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+            padding: 1.2rem 1rem;
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        .stat-item:hover {
+            background: #f5ecd7;
+        }
+        .stat-number {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--forest-mid);
+            letter-spacing: -1px;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+            margin-top: 0.2rem;
+            letter-spacing: 1px;
+        }
+
+        /* 地点卡片 */
+        .location-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(139, 105, 20, 0.08);
+            transition: var(--transition);
+        }
+        .location-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+        .location-img {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        .location-img .img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #fff;
+        }
+        .img-placeholder.spring {
+            background: linear-gradient(150deg, #6d9ea3, #4a7a82, #2b5a62);
+        }
+        .img-placeholder.mountain {
+            background: linear-gradient(150deg, #7a8b6f, #556b4f, #3a4f32);
+        }
+        .img-placeholder.wetland {
+            background: linear-gradient(150deg, #6b8f7c, #4a7560, #2d5540);
+        }
+        .img-placeholder.dune {
+            background: linear-gradient(150deg, #c4a44a, #a0843c, #7a6228);
+        }
+        .img-placeholder.confluence {
+            background: linear-gradient(150deg, #5b8a9a, #3d6a7a, #1f4a5a);
+        }
+        .img-placeholder.lake {
+            background: linear-gradient(150deg, #4a7c9b, #2d5a7a, #1a3f5a);
+        }
+        .img-placeholder.forest {
+            background: linear-gradient(150deg, #4a7c3f, #356b2d, #1f4a1a);
+        }
+        .location-card .card-body {
+            padding: 1.5rem;
+        }
+        .location-card h4 {
+            color: var(--forest-dark);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 时间轴 */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            border-left: 3px solid var(--leaf-green);
+            margin-left: 20px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding-left: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -48px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 3px var(--leaf-green);
+        }
+        .timeline-date {
+            font-weight: 700;
+            color: var(--leaf-green);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+        .timeline-item h4 {
+            color: var(--forest-dark);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .timeline-location {
+            font-style: italic;
+            color: #8b6914;
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        /* 成果卡片 */
+        .result-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-sm);
+            border-left: 5px solid var(--leaf-green);
+            transition: var(--transition);
+            text-align: center;
+        }
+        .result-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+        .result-icon {
+            font-size: 2.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .result-card h4 {
+            color: var(--forest-dark);
+            margin-bottom: 0.4rem;
+        }
+        .result-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--leaf-green);
+        }
+
+        /* 照片墙 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .gallery-item {
+            aspect-ratio: 4/3;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .gallery-item:hover {
+            transform: scale(1.04);
+            box-shadow: var(--shadow-md);
+        }
+        .gallery-item .gallery-img {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #fff;
+            transition: var(--transition);
+        }
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.6rem;
+            background: rgba(0, 0, 0, 0.55);
+            color: #fff;
+            font-size: 0.8rem;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+        .gallery-img.g1 {
+            background: linear-gradient(135deg, #4a90b8, #2a6a8a);
+        }
+        .gallery-img.g2 {
+            background: linear-gradient(135deg, #7a9a5b, #5a7a3b);
+        }
+        .gallery-img.g3 {
+            background: linear-gradient(135deg, #c4a44a, #a0842c);
+        }
+        .gallery-img.g4 {
+            background: linear-gradient(135deg, #5b8a7a, #3b6a5a);
+        }
+        .gallery-img.g5 {
+            background: linear-gradient(135deg, #8a6b5b, #6a4b3b);
+        }
+        .gallery-img.g6 {
+            background: linear-gradient(135deg, #3b7a9b, #1f5a7a);
+        }
+
+        /* 心得体会 */
+        .reflection-block {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            border: 1px solid rgba(139, 105, 20, 0.1);
+        }
+        .reflection-block::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            font-size: 8rem;
+            color: var(--leaf-green);
+            opacity: 0.12;
+            font-family: Georgia, serif;
+            line-height: 1;
+            pointer-events: none;
+        }
+        .reflection-block p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-mid);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: var(--forest-dark);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        .footer a {
+            color: #f0d78c;
+            text-decoration: none;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e8f0e3;
+            color: var(--forest-mid);
+            padding: 0.25rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin: 0.15rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                width: 100%;
+                background: rgba(253, 246, 232, 0.96);
+                backdrop-filter: blur(18px);
+                padding: 1rem 2rem;
+                gap: 0.2rem;
+                border-bottom: 1px solid rgba(139, 105, 20, 0.2);
+                box-shadow: var(--shadow-md);
+                border-radius: 0 0 16px 16px;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-links a {
+                padding: 0.7rem 1rem;
+                display: block;
+                border-radius: 10px;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .hero-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+            .section {
+                padding: 3rem 1.2rem;
+            }
+            .grid-2,
+            .grid-3,
+            .grid-5 {
+                grid-template-columns: 1fr;
+            }
+            .timeline {
+                margin-left: 0;
+                padding-left: 28px;
+            }
+            .timeline-item::before {
+                left: -35px;
+                width: 12px;
+                height: 12px;
+            }
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            #overview {
+                margin-top: -30px;
+                border-radius: var(--radius-md);
+            }
+        }
+        @media (max-width: 400px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            .overview-stats {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">🌍</span>
+                <span>GIS野外实习报告</span>
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="菜单">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#overview" class="active">概况</a></li>
+                <li><a href="#locations">实习地点</a></li>
+                <li><a href="#schedule">行程安排</a></li>
+                <li><a href="#gallery">影像记录</a></li>
+                <li><a href="#reflection">心得体会</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero 头部 -->
+    <header class="hero" id="hero">
+        <svg class="hero-mountains" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,200 L0,90 L80,72 L160,95 L240,68 L320,88 L400,55 L480,78 L560,42 L640,70 L720,35 L800,65 L880,28 L960,58 L1040,40 L1120,62 L1200,32 L1280,55 L1360,38 L1440,60 L1440,200 Z"
+            fill="rgba(255,255,255,0.18)" />
+            <path d="M0,200 L0,115 L70,100 L150,120 L230,95 L310,112 L390,82 L470,105 L550,70 L630,98 L710,65 L790,90 L870,58 L950,82 L1030,68 L1110,88 L1190,55 L1270,78 L1350,62 L1440,80 L1440,200 Z"
+            fill="rgba(255,255,255,0.1)" />
+        </svg>
+
+        <div class="hero-content">
+            <span class="hero-badge">📍 GIS Field Practice Report</span>
+            <h1>2026年<br><span class="highlight">地理信息科学</span>野外实习报告</h1>
+            <div class="hero-meta">
+                <span>📅 2026年6月22日 — 6月26日</span>
+                <span>📍 拉萨 · 林芝</span>
+                <span>👥 2024级地理信息科学专业</span>
+            </div>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- 实习概况 -->
+    <section class="section" id="overview">
+        <div class="section-header">
+            <span class="section-tag">Overview</span>
+            <h2>实习概况</h2>
+            <div class="divider"></div>
+            <p>本次野外实习聚焦地理信息科学核心技能，在青藏高原东南缘开展自然环境观察与地理环境分析。</p>
+        </div>
+        <div class="overview-stats">
+            <div class="stat-item">
+                <div class="stat-number">5</div>
+                <div class="stat-label">实习天数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">10</div>
+                <div class="stat-label">考察地点</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">75</div>
+                <div class="stat-label">实习成员</div>
+            </div>
+        </div>
+        <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;">
+        </div>
+    </section>
+
+    <!-- 实习地点 -->
+    <section class="section" id="locations">
+        <div class="section-header">
+            <span class="section-tag">Locations</span>
+            <h2>实习地点</h2>
+            <div class="divider"></div>
+            <p>实习路线沿拉萨—林芝一线展开，涵盖了温泉、高山、湿地、沙丘、河流汇流与湖泊等多种地貌类型。</p>
+        </div>
+        <div class="grid-2">
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder spring">♨️</div>
+                </div>
+                <div class="card-body">
+                    <h4>♨️ 日多温泉</h4>
+                    <p>位于墨竹工卡县，地热资源丰富，通过观察日多乡自然环境，尤其是向南倾覆的逆冲断裂组合分析并掌握温泉的分布与地质构造之间的关系；观察山地植被类型；培养学生的因果分析能力。</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder mountain">⛰️</div>
+                </div>
+                <div class="card-body">
+                    <h4>⛰️ 工布江达县加兴乡</h4>
+                    <p>地处尼洋河上游，参观并分析当地旅游资源状况，体会人与自然和谐共生的理念。</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder forest">🌲</div>
+                </div>
+                <div class="card-body">
+                    <h4>🌲 色季拉山</h4>
+                    <p>沿色季拉山盘山而上，观察垂直自然带谱变化；观察色季拉山山顶地形地貌特点；观察高山特有植物种类。</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder mountain">🏘️</div>
+                </div>
+                <div class="card-body">
+                    <h4>🏘️ 鲁朗镇</h4>
+                    <p>通过观察鲁朗林海的自然环境，尤其是观察森林中的各类树种，认识这些树种并加以分类，找出优势树种；从而掌握整个森林植物群落的形态结构；制作土壤剖面，分析土壤类型与结构。</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder wetland">💧</div>
+                </div>
+                <div class="card-body">
+                    <h4>💧 雅尼湿地</h4>
+                    <p>通过实地观察，了解雅尼湿地作为雅鲁藏布江与尼洋河交汇处湿地的独特环境面貌，认识高海拔地区河流湿地的水文条件、植被类型和整体生态格局。</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder dune">🏜️</div>
+                </div>
+                <div class="card-body">
+                    <h4>🏜️ 佛掌沙丘</h4>
+                    <p>观察丹娘佛掌沙丘形态，分析丹娘佛掌沙丘形成原因</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder confluence">🌊</div>
+                </div>
+                <div class="card-body">
+                    <h4>🌊 林芝市江河汇流</h4>
+                    <p>雅尼湿地尼洋河与雅鲁藏布江交汇处，邻近雅鲁藏布江缝合带。观察河口地貌；分析湿地主要植被类型。</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder wetland">🌿</div>
+                </div>
+                <div class="card-body">
+                    <h4>🛕 喇嘛岭寺</h4>
+                    <p>通过参观了解喇嘛岭寺的历史和文化旅游资源状况，观察常见的植被类型</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder mountain">🏔️</div>
+                </div>
+                <div class="card-body">
+                    <h4>🏔️ 比日山</h4>
+                    <p>登临比日山，从高处直观感受林芝市区、尼洋河谷及周边山系的整体空间关系，理解城市选址与河流、地形之间的依存联系。观察植被类型从山麓到山顶的更替，体会高海拔地区植物群落的适应特征和自然分带规律。</p>
+                </div>
+            </div>
+            <div class="location-card">
+                <div class="location-img">
+                    <div class="img-placeholder lake">🏞️</div>
+                </div>
+                <div class="card-body">
+                    <h4>🏞️ 巴松措</h4>
+                    <p>通过观察巴松措及其周边冰川作用形成的地貌，分析地形与湖泊形成间的关系；总结巴松措这一堰塞湖的基本特征。培养学生的理论与实践相结合的能力。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 行程安排 -->
+    <section class="section" id="schedule" style="background:var(--white);border-radius:var(--radius-lg);max-width:1050px;margin:0 auto 4rem;box-shadow:var(--shadow-sm);">
+        <div class="section-header">
+            <span class="section-tag">Schedule</span>
+            <h2>五日行程安排</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">Day 1 — 6月22日</div>
+                <p class="timeline-location">📍 日多温泉 → 工布江达县加兴乡</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Day 2 — 6月23日</div>
+                <p class="timeline-location">📍 色季拉山 → 鲁朗镇</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Day 3 — 6月24日</div>
+                <p class="timeline-location">📍 雅尼湿地 → 佛掌沙丘 → 林芝市江河汇流</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Day 4 — 6月25日</div>
+                <p class="timeline-location">📍 喇嘛岭寺 → 比日山</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Day 5 — 6月26日</div>
+                <p class="timeline-location">📍 巴松措</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 影像记录 -->
+    <section class="section" id="gallery">
+        <div class="section-header">
+            <span class="section-tag">Gallery</span>
+            <h2>影像记录</h2>
+            <div class="divider"></div>
+            <p>用镜头记录野外数据采集过程与壮丽的高原景观。</p>
+        </div>
+        <div class="gallery">
+            <div class="gallery-item">
+                <div class="gallery-img g1">🛰️</div>
+                <div class="gallery-caption">RTK控制点测量</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-img g2">🌲</div>
+                <div class="gallery-caption">色季拉山林线验证</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-img g3">🏜️</div>
+                <div class="gallery-caption">佛掌沙丘差分GPS测量</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-img g4">💧</div>
+                <div class="gallery-caption">雅尼湿地光谱采集</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-img g5">📐</div>
+                <div class="gallery-caption">比日山全站仪测量</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-img g6">🏞️</div>
+                <div class="gallery-caption">巴松措水体光谱测量</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 心得体会 -->
+    <section class="section" id="reflection">
+        <div class="section-header">
+            <span class="section-tag">Reflection</span>
+            <h2>心得体会</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="reflection-block">
+            <p>
+                这五天的野外之行，让我真正走出了课本。站在色季拉山的高处，看着云雾在脚下翻涌，那种壮阔是用任何文字都难以描述的。在巴松措的湖边，水清得能看见深处的石头，耳边只有风声和水鸟的鸣叫，那一刻觉得所有的疲惫都值了。以前觉得学习就是坐在教室里记东西，但这几天用双脚去走、用眼睛去看，才发现真实的世界远比想象中丰富。鲁朗的草甸像绿色绒毯，佛掌沙丘在河谷旁静静伫立，每一处风景都在诉说着自然的故事。
+            </p>
+            <p style="margin-top:1rem;">
+                最难忘的是和同学们一起跋涉的时光。遇到陡坡互相拉一把，晚上围坐分享见闻，这些点滴让原本辛苦的实习变得温暖又充实。我明白了，很多知识不是老师讲一遍就能掌握的，必须亲手触摸、亲身体会，才能真正变成自己的东西。这次实习让我更热爱这片土地，也更懂得了坚持和合作的意义。
+            </p>
+            <p style="margin-top:1rem;font-weight:600;color:var(--forest-dark);">
+                —— 2024级地理信息科学专业            </p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>🌍 2026年地理信息科学野外实习报告 · 西藏林芝 | 地理信息科学专业2024级</p>
+        <p style="margin-top:0.4rem;font-size:0.8rem;opacity:0.6;">
+            纸上得来终觉浅，绝知此事要躬行 · 用空间数据刻画壮丽山河
+        </p>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinksContainer = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            let currentSection = '';
+            const sections = document.querySelectorAll('section[id], header[id]');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinksContainer.classList.toggle('open');
+            mobileMenuBtn.textContent = navLinksContainer.classList.contains('open') ? '✕' : '☰';
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksContainer.classList.remove('open');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const caption = item.querySelector('.gallery-caption').textContent;
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;
+                    display:flex;align-items:center;justify-content:center;cursor:pointer;
+                    flex-direction:column;padding:2rem;
+                `;
+                const clone = item.querySelector('.gallery-img').cloneNode(true);
+                clone.style.cssText = `
+                    width:280px;height:210px;border-radius:16px;font-size:6rem;
+                    display:flex;align-items:center;justify-content:center;
+                    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+                `;
+                const captionEl = document.createElement('p');
+                captionEl.textContent = caption;
+                captionEl.style.cssText = 'color:#fff;margin-top:1.5rem;font-size:1.1rem;text-align:center;';
+                overlay.appendChild(clone);
+                overlay.appendChild(captionEl);
+                overlay.addEventListener('click', () => overlay.remove());
+                document.body.appendChild(overlay);
+                const escHandler = (e) => {
+                    if (e.key === 'Escape') { overlay.remove();
+                        document.removeEventListener('keydown', escHandler); }
+                };
+                document.addEventListener('keydown', escHandler);
+            });
+        });
+
+        console.log('🌍 地理信息科学野外实习报告网站已启动');
+        console.log('   📍 西藏林芝 | 2026年6月22日-26日');
+        console.log('   ✨ 点击照片墙图片可放大查看');
+    </script>
+</body>
+</html>
